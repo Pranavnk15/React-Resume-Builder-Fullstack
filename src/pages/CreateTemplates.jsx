@@ -7,8 +7,8 @@ import { storage, db } from '../config/firebase.config';
 import { adminIds, initialTags } from '../utils/helper';
 import { serverTimestamp, setDoc, doc, deleteDoc } from 'firebase/firestore';
 import useTemplates from '../hooks/useTemplates';
-import {useUser} from "../hooks";
-import {usenavigate} from "react-router-dom";
+import useUser from "../hooks/useUser";
+import {useNavigate} from "react-router-dom";
 
 
 export default function CreateTemplates() {
@@ -30,7 +30,7 @@ export default function CreateTemplates() {
 
     const {data: user, isLoading} = useUser();
 
-    const navigate = usenavigate()
+    const navigate = useNavigate()
 
     //handling the input field change
     const handleInputChange = (e) => {

@@ -9,16 +9,32 @@ import { FadeInOutWithOpacity, slideUpDownMenu } from '../animations';
 import { useQueryClient } from "react-query"
 import { auth } from '../config/firebase.config';
 import { adminIds } from '../utils/helper';
+import useFilters from "../hooks/useFilters"
 
 export default function Header() {
-    const { data, isLoading, isError } = useUser();
+    const { data, isLoading } = useUser();
     const [isMenu, setIsMenu] = useState(false);
+    const { data: filterData } = useFilters();
 
     const queryClient = useQueryClient()
     const signOutUser = async () => {
         await auth.signOut().then(() => {
             queryClient.setQueriesData("user", null);
         })
+    }
+
+    const handleSearchTerm = (e) => {
+        queryClient.setQueryData("globalFilter", {
+            ...queryClient.getQueryData("globalFilter"),
+            searchTerm: e.target.value,
+        });
+    }
+
+    const clearFilter = () => {
+        queryClient.setQueryData("globalFilter", {
+            ...queryClient.getQueryData("globalFilter"),
+            searchTerm: "",
+        });
     }
 
     return (
@@ -30,8 +46,27 @@ export default function Header() {
 
             {/* input section  */}
             <div className='flex-1 border border-gray-300 px-4 py-1 rounded-md flex items-center justify-between bg-gray-200'>
-                <input type="text" name="" id="" placeholder='Search here...' className='flex-1 h-10 bg-transparent font-semibold text-base outline-none border-none' />
+                <input
+                    value={filterData?.searchTerm ? filterData?.searchTerm : ""}
+                    onChange={handleSearchTerm}
+                    type="text"
+                    name=""
+                    id=""
+                    placeholder='Search here...'
+                    className='flex-1 h-10 bg-transparent font-semibold text-base outline-none border-none' />
+
+                <AnimatePresence>
+                    {filterData?.searchTerm.length > 0 && (
+                        <motion.div
+                            onClick={clearFilter}
+                            {...FadeInOutWithOpacity}
+                            className='w-8 h-8 flex items-center justify-center bg-gray-300 cursor-pointer active:scale-95 duration-150'>
+                            <p className='text-2xl text-black'>x</p>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
+
 
             {/* profile section  */}
             {/* we write animation in the AnimatePresence which helps to easily enter and exit the animations easily */}
