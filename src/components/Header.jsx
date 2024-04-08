@@ -98,7 +98,7 @@ export default function Header() {
 
                                             {/* menus */}
                                             <div className='w-full flex-col items-start flex gap-8 pt-6'>
-                                                <Link className='text-txtLight hover:text-txtDark text-base whitespace-nowrap' to={"/profile"}>MyAccount</Link>
+                                                <Link className='text-txtLight hover:text-txtDark text-base whitespace-nowrap' to={`/profile/${data?.uid}`}>MyAccount</Link>
                                                 {
                                                     adminIds.includes(data?.uid) && <Link className='text-txtLight hover:text-txtDark text-base whitespace-nowrap' to={"/template/create"}>Add New Template</Link>
 

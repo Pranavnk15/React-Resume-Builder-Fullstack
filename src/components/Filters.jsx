@@ -46,7 +46,7 @@ export default function Filters() {
                     {isClearedHovered && (
                         <motion.div
                             {...slideUpDownWithScale}
-                            className=' absolute -top-8 -left-2 bg-white shadow-md rounded-md px-2 py-1'>
+                            className='absolute -top-8 -left-2 bg-white shadow-md rounded-md px-2 py-1'>
                             <p className='whitespace-nowrap text-xs'>Clear all</p>
                         </motion.div>
                     )}
